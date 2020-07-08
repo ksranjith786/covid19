@@ -53,16 +53,16 @@
             </div>
             <!--<div class="w3-col" style="width: 20%"> -->
             <div class="w3-quarter">
-                <div class="w3-container w3-red w3-padding-16">
-                    <div class="w3-left"><i class="fa fa-hotel w3-xxxlarge"></i></div>
+                <div class="w3-container w3-orange w3-text-white w3-padding-16">
+                    <div class="w3-left"><i class="fa fa-heartbeat w3-xxxlarge"></i></div>
                     <div class="w3-right">
-                        <h2>{{deaths}}</h2>
-                        <p align='right'><font size=3><i>{{todayDeaths}}</i></font></p>
+                        <h2>{{active}}</h2>
+                        <p align='right'>&nbsp;</p>
                     </div>
                     <div class="w3-clear"></div>
-                    <h4>Deaths</h4>
+                    <h4>Active</h4>
                 </div>
-            </div>
+            </div>   
             <!--<div class="w3-col" style="width: 20%"> -->
             <div class="w3-quarter">
                 <div class="w3-container w3-green w3-padding-16">
@@ -77,16 +77,16 @@
             </div>
             <!--<div class="w3-col" style="width: 20%"> -->
             <div class="w3-quarter">
-                <div class="w3-container w3-orange w3-text-white w3-padding-16">
-                    <div class="w3-left"><i class="fa fa-heartbeat w3-xxxlarge"></i></div>
+                <div class="w3-container w3-red w3-padding-16">
+                    <div class="w3-left"><i class="fa fa-hotel w3-xxxlarge"></i></div>
                     <div class="w3-right">
-                        <h2>{{active}}</h2>
-                        <p align='right'>&nbsp;</p>
+                        <h2>{{deaths}}</h2>
+                        <p align='right'><font size=3><i>{{todayDeaths}}</i></font></p>
                     </div>
                     <div class="w3-clear"></div>
-                    <h4>Active</h4>
+                    <h4>Deaths</h4>
                 </div>
-            </div>
+            </div>    
             <!--div class="w3-col" style="width: 20%">
                 <div class="w3-container w3-teal w3-text-white w3-padding-16">
                     <div class="w3-left"><i class="fa fa-thermometer-full w3-xxxlarge" ></i></div>
@@ -100,9 +100,11 @@
             </div-->
         </div>
 
-        <form action="/country", method="post">
-            <label for="country">Country</label><span style="color: red !important; display: inline; float: none;">*</span>      
-            <select id="country" name="country" class="form-control">
+        <hr>
+
+        <form action="/country", method="GET">
+            <label for="country">&nbsp; &nbsp; Country</label><span style="color: red !important; display: inline; float: none;">*</span>      
+            <select id="country" name="country" onchange="this.form.submit();">
                 <option value="select">Please select</option>
                 <option value="Afghanistan">Afghanistan</option>
                 <option value="Åland Islands">Åland Islands</option>
@@ -349,17 +351,35 @@
                 <option value="Zambia">Zambia</option>
                 <option value="Zimbabwe">Zimbabwe</option>
             </select>
-            <label><button type = "submit" style="height:23px;width:90px; color:#333;">Submit</button></label>
+            <!--label><button type ="submit" style="height:23px;width:90px; color:#333;">Submit</button></label-->
         </form>
 
         <div class="w3-panel">
             <div class="w3-row-padding" style="margin:0 -16px">
                 <div class="w3-twothird">
-                    <h5>Regions</h5>
-                    <img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">
+                    <p>Cases per Population Rate</p>
+                    <div class="w3-grey">
+                        <div class="w3-container w3-center w3-padding w3-blue" style="width:{{casesPerPopulationRate}}%"><b>{{casesPerPopulationRate}}%</b></div>
+                    </div>
+                    
+                    <p>Active Cases Rate</p>
+                    <div class="w3-grey">
+                        <div class="w3-container w3-center w3-padding w3-orange" style="width:{{activeCasesRate}}%"><b>{{activeCasesRate}}%</b></div>
+                    </div>            
+        
+                    <p>Recover Rate</p>
+                    <div class="w3-grey">
+                        <div class="w3-container w3-center w3-padding w3-green" style="width:{{recoveryRate}}%"><b>{{recoveryRate}}%</b></div>
+                    </div>
+        
+                    <p>Death Rate</p>
+                    <div class="w3-grey">
+                        <div class="w3-container w3-center w3-padding w3-red" style="width:{{deathRate}}%"><b>{{deathRate}}%</b></div>
+                    </div>
+        
                 </div>
                 <div class="w3-third">
-                    <h5>Highlights</h5>
+                    <h5>Additional Information for {{countryName}}</h5>
                     <table class="w3-table w3-striped w3-white">
                         <tr>
                             <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
@@ -400,25 +420,12 @@
                 </div>
             </div>
         </div>
+
         <hr>
+        
         <div class="w3-container">
-            <h5>General Stats</h5>
-            <p>New Visitors</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-center w3-padding w3-green" style="width:25%">+25%</div>
-            </div>
-
-            <p>New Users</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-center w3-padding w3-orange" style="width:50%">50%</div>
-            </div>
-
-            <p>Bounce Rate</p>
-            <div class="w3-grey">
-                <div class="w3-container w3-center w3-padding w3-red" style="width:75%">75%</div>
-            </div>
+            <!-- Place holder for Historical Plot -->
         </div>
-        <hr>
 
         <div class="w3-container">
             <h5>Countries</h5>
@@ -454,37 +461,12 @@
     
         <!-- Footer -->
         <footer class="w3-container w3-padding-16 w3-light-grey">
-            <p>Developed by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">Ranjith K S</a></p>
+            <p><font size=2>Developed by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank"><b>Ranjith K S</b></font></a></p>
             <p><font size=1>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></font></p>
         </footer>
 
         <!-- End page content -->
     </div>
-
-    <script>
-        // Get the Sidebar
-        var mySidebar = document.getElementById("mySidebar");
-
-        // Get the DIV with overlay effect
-        var overlayBg = document.getElementById("myOverlay");
-
-        // Toggle between showing and hiding the sidebar, and add overlay effect
-        function w3_open() {
-            if (mySidebar.style.display === 'block') {
-                mySidebar.style.display = 'none';
-                overlayBg.style.display = "none";
-            } else {
-                mySidebar.style.display = 'block';
-                overlayBg.style.display = "block";
-            }
-        }
-
-        // Close the sidebar with the close button
-        function w3_close() {
-            mySidebar.style.display = "none";
-            overlayBg.style.display = "none";
-        }
-    </script>
 
 </body>
 
