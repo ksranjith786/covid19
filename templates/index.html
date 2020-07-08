@@ -30,13 +30,18 @@
 
         <!-- Header -->
         <header class="w3-container" style="padding-top:22px">
-            <h1><b><i class="fa fa-dashboard"></i> {{countryName}} </b></h1>
+            <div class="w3-half">
+                <h1><b><i class="fa fa-dashboard"></i> {{countryName}} </b></h1>
+            </div>
+            <div class="w3-half">
+                <p align="right"><font size=2><i><script> document.write(new Date().toISOString()); </script></i></font></p>
+            </div>
         </header>
 
         <div class="w3-row-padding w3-margin-bottom">
-            <div class="w3-quarter">
+            <div class="w3-col" style="width: 20%">
                 <div class="w3-container w3-red w3-padding-16">
-                    <div class="w3-left"><i class="fa fa-comment w3-xxxlarge"></i></div>
+                    <div class="w3-left"><i class="fa fa-user-md w3-xxxlarge"></i></div>
                     <div class="w3-right">
                         <h2>{{cases}}</h2>
                         <p align='right'><font size=3><i>{{todayCases}}</i></font></p>
@@ -45,9 +50,9 @@
                     <h4>Cases</h4>
                 </div>
             </div>
-            <div class="w3-quarter">
+            <div class="w3-col" style="width: 20%">
                 <div class="w3-container w3-blue w3-padding-16">
-                    <div class="w3-left"><i class="fa fa-eye w3-xxxlarge"></i></div>
+                    <div class="w3-left"><i class="fa fa-hotel w3-xxxlarge"></i></div>
                     <div class="w3-right">
                         <h2>{{deaths}}</h2>
                         <p align='right'><font size=3><i>{{todayDeaths}}</i></font></p>
@@ -56,9 +61,9 @@
                     <h4>Deaths</h4>
                 </div>
             </div>
-            <div class="w3-quarter">
-                <div class="w3-container w3-teal w3-padding-16">
-                    <div class="w3-left"><i class="fa fa-share-alt w3-xxxlarge"></i></div>
+            <div class="w3-col" style="width: 20%">
+                <div class="w3-container w3-green w3-padding-16">
+                    <div class="w3-left"><i class="fa fa-wheelchair-alt w3-xxxlarge"></i></div>
                     <div class="w3-right">
                         <h2>{{recovered}}</h2>
                         <p align='right'><font size=3><i>{{todayRecovered}}</i></font></p>
@@ -67,15 +72,26 @@
                     <h4>Recovered</h4>
                 </div>
             </div>
-            <div class="w3-quarter">
+            <div class="w3-col" style="width: 20%">
                 <div class="w3-container w3-orange w3-text-white w3-padding-16">
-                    <div class="w3-left"><i class="fa fa-users w3-xxxlarge"></i></div>
+                    <div class="w3-left"><i class="fa fa-heartbeat w3-xxxlarge"></i></div>
                     <div class="w3-right">
                         <h2>{{active}}</h2>
                         <p align='right'>&nbsp;</p>
                     </div>
                     <div class="w3-clear"></div>
                     <h4>Active</h4>
+                </div>
+            </div>
+            <div class="w3-col" style="width: 20%">
+                <div class="w3-container w3-teal w3-text-white w3-padding-16">
+                    <div class="w3-left"><i class="fa fa-thermometer-full w3-xxxlarge" ></i></div>
+                    <div class="w3-right">
+                        <h2>{{critical}}</h2>
+                        <p align='right'>&nbsp;</p>
+                    </div>
+                    <div class="w3-clear"></div>
+                    <h4>Critical</h4>
                 </div>
             </div>
         </div>
@@ -334,47 +350,47 @@
 
         <div class="w3-panel">
             <div class="w3-row-padding" style="margin:0 -16px">
-                <div class="w3-third">
+                <div class="w3-twothird">
                     <h5>Regions</h5>
                     <img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">
                 </div>
-                <div class="w3-twothird">
-                    <h5>Feeds</h5>
+                <div class="w3-third">
+                    <h5>Highlights</h5>
                     <table class="w3-table w3-striped w3-white">
                         <tr>
                             <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
-                            <td>New record, over 90 views.</td>
-                            <td><i>10 mins</i></td>
+                            <td>Cases per 1 Million</td>
+                            <td><i>{{casesPerOneMillion}}</i></td>
                         </tr>
                         <tr>
                             <td><i class="fa fa-bell w3-text-red w3-large"></i></td>
-                            <td>Database error.</td>
-                            <td><i>15 mins</i></td>
+                            <td>Deaths per 1 Million</td>
+                            <td><i>{{deathsPerOneMillion}}</i></td>
                         </tr>
                         <tr>
                             <td><i class="fa fa-users w3-text-yellow w3-large"></i></td>
-                            <td>New record, over 40 users.</td>
-                            <td><i>17 mins</i></td>
+                            <td>Recovered per 1 Million</td>
+                            <td><i>{{recoveredPerOneMillion}}</i></td>
                         </tr>
                         <tr>
                             <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
-                            <td>New comments.</td>
-                            <td><i>25 mins</i></td>
+                            <td>Active per 1 Million</td>
+                            <td><i>{{activePerOneMillion}}</i></td>
                         </tr>
                         <tr>
                             <td><i class="fa fa-bookmark w3-text-blue w3-large"></i></td>
-                            <td>Check transactions.</td>
-                            <td><i>28 mins</i></td>
+                            <td>Critical per 1 Million</td>
+                            <td><i>{{criticalPerOneMillion}}</i></td>
                         </tr>
                         <tr>
                             <td><i class="fa fa-laptop w3-text-red w3-large"></i></td>
-                            <td>CPU overload.</td>
-                            <td><i>35 mins</i></td>
+                            <td>Tests per Million</td>
+                            <td><i>{{testsPerOneMillion}}</i></td>
                         </tr>
                         <tr>
                             <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
-                            <td>New shares.</td>
-                            <td><i>39 mins</i></td>
+                            <td>Population</td>
+                            <td><i>{{population}}</i></td>
                         </tr>
                     </table>
                 </div>
