@@ -10,6 +10,8 @@ def get_country(country=""):
 
     # print(URL)
     r = requests.get(url = URL) #, params = PARAMS)
-    data = r.json()
     
-    return data
+    if r.status_code != 200:
+        raise Exception
+
+    return r.status_code, r.json()
