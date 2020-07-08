@@ -29,7 +29,7 @@ def all():
     # "testsPerOneMillion":33201.02,"todayCases":108404,"todayDeaths":3293,"todayRecovered":174452,"updated":1594142967355}
     data = get_all()
     #print(data)
-    return render_template('index.html', countryName=countryName, cases=data['cases'], todayCases=data['todayCases'], deaths=data['deaths'],
+    return render_template('index.html', countryName="Across World", cases=data['cases'], todayCases=data['todayCases'], deaths=data['deaths'],
                 todayDeaths=data['todayDeaths'], recovered=data['recovered'], todayRecovered=data['todayRecovered'], active=data['active'],
                 critical=data['critical'], population=data['population'],
                 casesPerOneMillion=data['casesPerOneMillion'], deathsPerOneMillion=data['deathsPerOneMillion'], recoveredPerOneMillion=data['recoveredPerOneMillion'],
