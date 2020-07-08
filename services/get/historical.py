@@ -9,6 +9,8 @@ def get_historical(country=""):
         URL = HISTORICAL_URL
     
     r = requests.get(url = URL) #, params = PARAMS)
-    data = r.json()
+        
+    if r.status_code != 200:
+        raise Exception
     
-    return data
+    return r.status_code, r.json()

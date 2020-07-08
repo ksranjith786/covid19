@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, make_response, redirect, url_for
 import datetime
 from os import environ
 
@@ -13,14 +13,16 @@ if envFLASK == 'development':
 else:
     app.debug = False
 
-def getRateValues(data):
-    casesPerPopulationRate = round((data['cases'] / data['population'] * 100), 3)
-    activeCasesRate = round((data['active'] / data['cases'] * 100), 3)
-    recoveryRate = round((data['recovered'] / data['cases'] * 100), 3)
-    deathRate = round((data['deaths'] / data['cases'] * 100), 3)
-
-    return casesPerPopulationRate, activeCasesRate, recoveryRate, deathRate
-# end getRateValues
+# Get the Rate of Change values
+def getRate(x, y):
+    try:
+        rate = round((x / y * 100), 3)
+    except ZeroDivisionError as err:
+        print('Exception caught: ', err.__class__)
+        rate = 0
+    
+    return rate
+# end getRate
 
 # {"active":4486275,"activePerOneMillion":578.17,"affectedCountries":215,"cases":11841626,"casesPerOneMillion":1519,"critical":57952,
 # "criticalPerOneMillion":7.47,"deaths":543433,"deathsPerOneMillion":69.7,"oneCasePerPeople":0,"oneDeathPerPeople":0,
@@ -29,12 +31,37 @@ def getRateValues(data):
 
 @app.route('/country', methods = ["GET"])
 def country():
-    #country_name = request.form.get("country") # for POST
-    countryName = request.args.get("country", default = 'India', type = str)
-    data = get_country(countryName)
-    casesPerPopulationRate, activeCasesRate, recoveryRate, deathRate = getRateValues(data)
-    #print(data)
-    return render_template('index.html', countryName=countryName, cases=data['cases'], todayCases=data['todayCases'], deaths=data['deaths'],
+    try:
+        statusCode = 0
+        data = dict()
+
+        #country_name = request.form.get("country") # for POST
+        countryName = request.args.get("country", default = '_WORLD_', type = str)
+        
+        if countryName == '_WORLD_':
+            countryName = "Across World"
+            statusCode, data = get_all()
+        else:
+            statusCode, data = get_country(countryName)
+
+    except:
+        return make_response('Unsupported request, probably with selected country name', statusCode)
+
+    else:
+        try:
+            casesPerPopulationRate = getRate(data['cases'], data['population'])
+            activeCasesRate = getRate(data['active'], data['cases'])
+            recoveryRate = getRate(data['recovered'], data['cases'])
+            deathRate = getRate(data['deaths'], data['cases'])
+
+        except KeyError as err:
+            return make_response('Error while retrieving data; ' + str(err.__class__.__qualname__) + '! Exception caught: ' + str(err), 500)
+
+        except:
+            return make_response('Unexpected Error', 500)
+
+        else:    
+            return render_template('index.html', countryName=countryName, cases=data['cases'], todayCases=data['todayCases'], deaths=data['deaths'],
                 todayDeaths=data['todayDeaths'], recovered=data['recovered'], todayRecovered=data['todayRecovered'], active=data['active'],
                 critical=data['critical'], population=data['population'],
                 casesPerPopulationRate=casesPerPopulationRate,  activeCasesRate=activeCasesRate, recoveryRate=recoveryRate, deathRate=deathRate,
@@ -45,15 +72,7 @@ def country():
 @app.route('/')
 @app.route('/all')
 def all():
-    data = get_all()
-    casesPerPopulationRate, activeCasesRate, recoveryRate, deathRate = getRateValues(data)
-    #print(data)
-    return render_template('index.html', countryName="Across World", cases=data['cases'], todayCases=data['todayCases'], deaths=data['deaths'],
-                todayDeaths=data['todayDeaths'], recovered=data['recovered'], todayRecovered=data['todayRecovered'], active=data['active'],
-                critical=data['critical'], population=data['population'],
-                casesPerPopulationRate=casesPerPopulationRate,  activeCasesRate=activeCasesRate, recoveryRate=recoveryRate, deathRate=deathRate,
-                casesPerOneMillion=data['casesPerOneMillion'], deathsPerOneMillion=data['deathsPerOneMillion'], recoveredPerOneMillion=data['recoveredPerOneMillion'],
-                activePerOneMillion=data['activePerOneMillion'], criticalPerOneMillion=data['criticalPerOneMillion'], testsPerOneMillion=data['testsPerOneMillion'])
+    return redirect(url_for('country'))
 # end all()
 
 if __name__ == '__main__':
